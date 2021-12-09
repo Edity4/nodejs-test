@@ -1,6 +1,9 @@
 const express = require("express");
+const locations = require("./routes/locations.js");
+
 const app = express();
-const router = express.Router();
+
+app.use("/locations", locations);
 
 const port = process.env.PORT || 8080;
 
@@ -12,12 +15,6 @@ const data = [
 ];
 
 // app.use(express.static("public"));
-
-router.get("/1", (req, res) => {
-  res.json({ id: 1, latitude: 60, longitude: 60 });
-});
-
-app.use("/locations", router);
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");
