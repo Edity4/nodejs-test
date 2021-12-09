@@ -1,27 +1,41 @@
 const express = require("express");
 const router = express.Router();
 
+router.use(express.json());
+nextID = 3;
+
+const data = [
+  { id: 1, latitude: 60, longitude: 60 },
+  { id: 2, latitude: 80, longitude: 40 },
+];
+
 router.get("/", (req, res) => {
-  res.json([
-    { id: 1, latitude: 60, longitude: 60 },
-    { id: 2, latitude: 80, longitude: 40 },
-  ]);
+  res.json(data);
 });
 
-router.get("/1", (req, res) => {
-  res.json({ id: 1, latitude: 60, longitude: 60 });
-});
-
-router.get("/2", (req, res) => {
-  res.json({ id: 2, latitude: 80, longitude: 40 });
+router.get("/:id([0-9]+)", (req, res) => {
+  let haettava = data.find((x) => x.id == req.params.id);
+  if (haettava) res.json(haettava);
+  else res.status(404).send(`Could not find item with id ${req.params.id}`);
 });
 
 router.post("/", (req, res) => {
-  res.send("Adding new location");
+  let uusi = req.body;
+  if (uusi) {
+    uusi.id = nextID++;
+    data.push(uusi);
+    res.status(201).json(uusi);
+  } else res.status(400).send("Invalid object.");
 });
 
-router.delete("/1", (req, res) => {
-  res.send("Delete location with id 1");
+router.delete("/:id([0-9]+)", (req, res) => {
+  newData = data.filter((x) => x.id != req.params.id);
+  if (newData.length < data.length) {
+    data = newData;
+    res.status(204).end();
+  } else {
+    res.status(404).send(`Could not find item with id ${req.params.id}`);
+  }
 });
 
 module.exports = router;

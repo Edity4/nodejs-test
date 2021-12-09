@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Edity4/nodejs-test#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "path-to-regexp": "^6.2.0"
   }
 }
