@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Data test</title>
+  </head>
+
+  <body>
+    <ul id="nimet"></ul>
+    <script>
+      const getNimet = async () => {
+        const hr = await fetch("/customers");
+        const data = await hr.json();
+        console.log(data);
+        document.getElementById("nimet").innerHTML = data
+          .map((n) => `<li>${n.name}</li>`)
+          .join("");
+      };
+      getNimet();
+    </script>
+  </body>
+</html>
