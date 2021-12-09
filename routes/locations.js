@@ -1,9 +1,9 @@
 const express = require("express");
-const cors = require("cors");
+// const cors = require("cors");
 const router = express.Router();
 
 router.use(express.json());
-router.use(cors());
+// router.use(cors());
 // router.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   next();
@@ -11,7 +11,7 @@ router.use(cors());
 
 nextID = 3;
 
-const data = [
+let data = [
   { id: 1, latitude: 60, longitude: 60 },
   { id: 2, latitude: 80, longitude: 40 },
 ];

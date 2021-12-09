@@ -1,21 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Data test</title>
+    <title>Test</title>
   </head>
-
   <body>
-    <ul id="nimet"></ul>
+    <button id="get">Get</button>
+    <button id="post">Post</button>
+    <button id="delete">Delete</button>
+    <ul id="locations"></ul>
     <script>
-      const getNimet = async () => {
-        const hr = await fetch("/customers");
-        const data = await hr.json();
-        document.getElementById("nimet").innerHTML = data
-          .map((n) => `<li>${n.name}</li>`)
+      const URL = "/locations";
+
+      const getLocation = async () => {
+        let hr = await fetch(URL);
+        let data = await hr.json();
+        document.querySelector("#locations").innerHTML = data
+          .map(
+            (l) =>
+              `<li>id: ${l.id}, lat: ${l.latitude}, long: ${l.longitude}</li>`
+          )
           .join("");
       };
-      getNimet();
+      const postLocation = async (location) => {
+        let myHeaders = new Headers();
+        myHeaders.append("content-type", "application/json");
+        let hr = await fetch(URL, {
+          method: "POST",
+          headers: myHeaders,
+          body: JSON.stringify(location),
+        });
+        let data = await hr.json();
+      };
+      const deleteLocation = async (id) => {
+        let hr = await fetch(`${URL}/${id}`, { method: "DELETE" });
+        // let data = await hr.json();
+      };
+
+      window.addEventListener("load", () => {
+        document.querySelector("#get").addEventListener("click", getLocation);
+        document
+          .querySelector("#post")
+          .addEventListener("click", () =>
+            postLocation({ latitude: 60, longitude: 60 })
+          );
+        document
+          .querySelector("#delete")
+          .addEventListener("click", () => deleteLocation(1));
+      });
     </script>
   </body>
 </html>
